@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    name: "Echo worker name"
+    name: "Deploy and restart worker ${{ inputs.worker}}"
     runs-on: ubuntu-latest
     steps:
       - name: Process value
