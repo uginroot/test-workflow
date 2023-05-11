@@ -7,54 +7,11 @@ on:
         type: string
         required: true
         description: Worker name
-      environment:
-        type: string
-        required: false
-        default: development
-
-env:
-  CONFIGS_ARTIFACT: configs_artifact
 
 jobs:
   deploy:
-    name: "Deploy and restart worker"
+    name: "Echo worker name"
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Generate worker configs
-        uses: ./.github/actions/generate_nodejs_project_configs
-        with:
-          projectFolder: workers/${{ inputs.worker }}
-          environment: ${{ inputs.environment }}
-          configs_artifact_name: ${{ env.CONFIGS_ARTIFACT }}
-          secrets_json: ${{ toJSON(secrets) }}
-      - name: Download configs artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.CONFIGS_ARTIFACT }}
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-      - name: Download certificates from s3
-        run: aws s3 cp s3://sswcodedeploy/Certificates/${{ inputs.environment }}/rds-combined-ca-bundle.pem ./nodejs-monorepo/certs/rds-combined-ca-bundle.pem
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-      - name: Setup buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: ./nodejs-monorepo
-          push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.worker }}:${{ inputs.environment }}
-          file: ./nodejs-monorepo/workers/${{ inputs.worker }}/Dockerfile
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      - name: Update service
-        run: aws ecs update-service --cluster fargate-only --service ecs-${{ inputs.worker }}-${{ inputs.environment }} --force-new-deployment
+      - name: Process value
+        run: echo "Processing value ${{ inputs.worker }}"
