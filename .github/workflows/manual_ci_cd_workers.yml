@@ -6,7 +6,7 @@ on:
     inputs:
       workers:
         description: Workers
-        type: checkbox
+        type: choice[]
         required: true
         options:
           - "analytics-events-to-clickhouse-worker"
