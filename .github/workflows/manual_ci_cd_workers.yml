@@ -1,5 +1,5 @@
-name: Worker - manual deploy
-run-name: Deploy "${{ inputs.worker }}"
+name: Manual deploy all notifications workers
+run-name: Manual deploy all notifications workers
 
 on:
   workflow_dispatch:
