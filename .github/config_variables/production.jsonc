@@ -1,0 +1,543 @@
+{
+    "env": "prod", // EV_ENV
+    "environment": "production",
+    "debug": false, // EV_APP_DEBUG
+    "secret": "<%-EV_GW_SECRET%>", // EV_GW_SECRET $SECRET
+    "notificationSecret": "<%-EV_GW_ADMIN_NOTIFICATION_SECRET%>", // EV_GW_ADMIN_NOTIFICATION_SECRET
+    "additional": {
+        "env": "SSW", // EV_APP_ENV
+        "version": "2.0", // EV_APP_VERSION
+        "buildNumber": "<%-GITHUB_RUN_ID%>"
+    },
+    "domains": {
+        "adminDomain": "admin.growave.io", // EV_ADMIN_DOMAIN
+        "appDomain": "app.growave.io", // EV_APP_DOMAIN
+        "gwDomain": "www.growave.io", // EV_GW_DOMAIN
+        "wfDomain": "www.growave.io", // Webflow domain
+        "referralDomain": "refrr.app" // EV_REFERRAL_DEFAULT_DOMAIN
+    },
+    "urls": {
+        "baseAppUrl": "https://app.growave.io", // EV_BASE_APP_DOMAIN
+        "baseAdminUrl": "https://admin.growave.io", // EV_BASE_DOMAIN
+        "baseAdminApiUrl": "https://admin.growave.io/admin-api/v2", // EV_BASE_URL
+        "taskAppUrl": "https://task.growave.io"
+    },
+    "jwt": {
+        "jwtExpirationTime": 3600, // EV_JWT_EXPIRATION_TIME
+        "refreshExpirationTime": 604800, // EV_REFRESH_EXPIRATION_TIME
+        "secret": "<%-EV_JWT_SECRET_KEY%>", // EV_JWT_SECRET_KEY $SECRET
+        "crmSecret": "<%-EV_CRM_JWT_SECRET_KEY%>", // EV_CRM_JWT_SECRET_KEY $SECRET
+        "guestExpirationTime": "", // EV_JWT_GUEST_EXPIRATION_TIME
+        "bridgeSecret": "<%-EV_JWT_BRIDGE_SECRET%>" // EV_JWT_BRIDGE_SECRET
+    },
+    "shopify": {
+        "api_version": "2023-01", // EV_SHOPIFY_API_VERSION
+        "app_id": 144550, // EV_SHOPIFY_APP_ID
+        "instagram": {
+            "key": "98e0dc64ab7212793799a67eeb6a9374", // EV_SHOPIFY_INSTAGRAM_API_KEY
+            "secret": "<%-EV_SHOPIFY_INSTAGRAM_SECRET%>" // EV_SHOPIFY_INSTAGRAM_SECRET, $SECRET
+        },
+        "default": {
+            "key": "59da3ad107e08fd5430db47cc4e0a75c", // EV_SHOPIFY_DEFAULT_API_KEY
+            "secret": "<%-EV_SHOPIFY_DEFAULT_SECRET%>", // EV_SHOPIFY_DEFAULT_SECRET, $SECRET
+            "flow": {
+                "triggerIds": {
+                    "review_request": "55829a62-de4b-4991-acd5-0ca95e4a5b93",
+                    "products_on_save": "079fd626-9e53-4b14-8541-a032f908d1ba",
+                    "products_on_sale": "dff92fea-409f-4d69-b46d-4db5731c495a",
+                    "products_in_stock": "e26dd398-2ec7-4916-ac86-e345a098a510"
+                }
+            }
+        },
+        "adminUrl": "https://admin.shopify.com/store",
+        "appstore": {
+            "default": {
+                "url": "https://apps.shopify.com/growave"
+            }
+        }
+    },
+    "amazon": {
+        "region": "us-east-1", // EV_AMAZON_REGION, EV_AMAZON_S3_REGION
+        "key": "AKIARSKEHT2ZPNIJF3E5", // EV_AMAZON_KEY
+        "version": "latest", // EV_AMAZON_VERSION
+        "secret": "<%-EV_AMAZON_SECRET%>", // EV_AMAZON_SECRET, $SECRET
+
+        "sqs": {
+            "key": "AKIARSKEHT2ZBXTVUXLU", // EV_AMAZON_SQS_KEY
+            "secret": "<%-EV_AMAZON_SQS_SECRET%>" //EV_AMAZON_SQS_SECRET, $SECRET
+        },
+        "ses": {
+            "key": "AKIARSKEHT2ZEFJPCHJB", // EV_AMAZON_SES_KEY
+            "secret": "<%-EV_AMAZON_SES_SECRET%>" // EV_AMAZON_SES_SECRET $SECRET
+        },
+        "s3": {
+            "root": "client", // EV_S3_ROOT
+            "key": "AKIARSKEHT2ZO2AIFBQO", // EV_AMAZON_S3_KEY
+            "secret": "<%-EV_AMAZON_S3_SECRET%>" // EV_AMAZON_S3_SECRET, $SECRET
+        }
+    },
+    "sentry": {
+        "default": {
+            "dsn": "https://98825c2be606479e81b32d6e7a49cd5d@mysentry.growave.io/2" // EV_SENTRY_DNS
+        },
+        "workers": {
+            "dsn": "https://b526989821f04815b48949fe3d43f09c@mysentry.growave.io/19"
+        }
+    },
+    "webhooks": {
+        "webhookDomain": "https://webhooks.socialshopwave.com", // EV_WEBHOOK_DOMAIN
+        "sqsWebhookURL": "https://vrko642dtd.execute-api.us-east-1.amazonaws.com/production" // EV_SQS_WEBHOOK_DOMAIN
+    },
+    "facebook": {
+        "appId": "150722575101290", // EV_FACEBOOK_APP_ID
+        "publicKey": "3f4d52515c12761705e04cf14a025321", // EV_FACEBOOK_APP_PUBLIC
+        "secret": "<%-EV_FACEBOOK_APP_SECRET%>", // EV_FACEBOOK_APP_SECRET $SECRET
+        "betaMode": "0", // EV_FACEBOOK_BETA_MODE
+        "graphVersion": "v8.0" // EV_FACEBOOK_GRAPH_VERSION
+    },
+    "firePush": {
+        "token": "<%-EV_FIRE_PUSH_TOKEN%>", // EV_FIRE_PUSH_TOKEN $SECRET $DELETE
+        "adminUrl": "https://admin.firepush.io", // EV_FIRE_PUSH_ADMIN_DOMAIN $DELETE
+        "url": "https://firepush.io" // EV_FIRE_PUSH_DOMAIN $DELETE
+    },
+    "spurit": {
+        "appId": "2", // EV_SPURIT_API_APP_ID
+        "token": "<%-EV_SPURIT_API_TOKEN%>" // EV_SPURIT_API_TOKEN $SECRET
+    },
+    "oAuthProviders": {
+        "oAuth1RedirectUrl": "https://app.growave.io/storefront-api/v2/socialLogin/callback/oauth1", // EV_OAUTH1_REDIRECT_CALLBACK
+        "oAuth2RedirectUrl": "https://app.growave.io/storefront-api/v2/socialLogin/callback/oauth2", // EV_OAUTH2_REDIRECT_CALLBACK
+        "amazon": {
+            "appId": "amzn1.application-oa2-client.d85f4869f5a54ebf96af6ababc1380ca", // EV_AMAZON_APP_ID
+            "secret": "<%-EV_AMAZON_APP_SECRET%>" // EV_AMAZON_APP_SECRET $SECRET
+        },
+        "facebook": {
+            "appId": "150722575101290", // EV_FACEBOOK_APP_ID
+            "publicKey": "3f4d52515c12761705e04cf14a025321", // EV_FACEBOOK_APP_PUBLIC
+            "secret": "<%-EV_FACEBOOK_APP_SECRET%>" // EV_FACEBOOK_APP_SECRET $SECRET
+        },
+        "google": {
+            "appId": "766683587460-nit6r0u35r0v9d3r1ft5uika3v22q5fi.apps.googleusercontent.com", // EV_GPLUS_APP_ID
+            "secret": "<%-EV_GPLUS_APP_SECRET%>", // EV_GPLUS_APP_SECRET $SECRET
+            "key": "AIzaSyAJbLQ-mYMXnGpABpsMRp0eP8UBKKdDumg", // EV_GPLUS_APP_KEY
+            "keyNew": "AIzaSyAO1VYTVgmj8B09JzUaea-YoIQaMeG-750" // EV_GPLUS_APP_KEY_NEW
+        },
+        "instagram": {
+            "appKey": "51d0e95e3c10476c9e38983ed1e75427", // EV_INSTAGRAM_APP_KEY
+            "appSecret": "<%-EV_INSTAGRAM_APP_SECRET%>", // EV_INSTAGRAM_APP_SECRET $SECRET
+
+            "appKey2": "6576840e8e0a4ee7bdc5b847f2aee4e7", // EV_INSTAGRAM_APP_KEY2
+            "appSecret2": "<%-EV_INSTAGRAM_APP_SECRET2%>", // EV_INSTAGRAM_APP_SECRET2 $SECRET
+
+            "token1": "<%-EV_INSTAGRAM_ACCESS_TOKEN1%>", // EV_INSTAGRAM_ACCESS_TOKEN1 $SECRET
+            "token2": "<%-EV_INSTAGRAM_ACCESS_TOKEN2%>", // EV_INSTAGRAM_ACCESS_TOKEN2 $SECRET
+            "token3": "<%-EV_INSTAGRAM_ACCESS_TOKEN3%>", // EV_INSTAGRAM_ACCESS_TOKEN3 $SECRET
+            "token4": "<%-EV_INSTAGRAM_ACCESS_TOKEN4%>", // EV_INSTAGRAM_ACCESS_TOKEN4 $SECRET
+            "token5": "<%-EV_INSTAGRAM_ACCESS_TOKEN5%>", // EV_INSTAGRAM_ACCESS_TOKEN5 $SECRET
+            "token6": "<%-EV_INSTAGRAM_ACCESS_TOKEN6%>" // EV_INSTAGRAM_ACCESS_TOKEN6 $SECRET
+        },
+        "line": {
+            "off": {
+                "clientId": "1655943441", // EV_LINE_CLIENT_ID_OFF
+                "secretKey": "<%-EV_LINE_CLIENT_SECRET_KEY_OFF%>" // EV_LINE_CLIENT_SECRET_KEY_OFF $SECRET
+            },
+            "default": {
+                "clientId": "1655923710", // EV_LINE_CLIENT_ID
+                "secretKey": "<%-EV_LINE_CLIENT_SECRET_KEY%>" // EV_LINE_CLIENT_SECRET_KEY $SECRET
+            }
+        },
+        "pinterest": {
+            "appId": "4818815424967749428", // EV_PINTEREST_APP_ID
+            "secretKey": "<%-EV_PINTEREST_APP_SECRET%>" // EV_PINTEREST_APP_SECRET $SECRET
+        },
+        "tumblr": {
+            "appId": "99QFkuxFgMR77g4YSz859cjaOMKy8M2PxWK0dF7bAMuu1N6Rnf", // EV_TUMBLR_APP_ID
+            "secret": "<%-EV_TUMBLR_APP_SECRET%>" // EV_TUMBLR_APP_SECRET $SECRET
+        },
+        "twitter": {
+            "appKey": "WGpqI8zE0SLQPwGXUK0SvAm9O", // EV_TWITTER_APP_KEY
+            "secret": "<%-EV_TWITTER_APP_SECRET%>" // EV_TWITTER_APP_SECRET $SECRET
+        },
+        "yahoo": {
+            "appId": "g4IiyQ34", // EV_YAHOO_APP_ID
+            "appKey": "dj0yJmk9NTFhRjhoY2h6N29jJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTU3", // EV_YAHOO_APP_KEY
+            "appSecret": "<%-EV_YAHOO_APP_SECRET%>" // EV_YAHOO_APP_SECRET $SECRET
+        }
+    },
+    "encryption": {
+        "app": {
+            "cipher": "aes-256-ctr", // EV_APP_ENCRYPTION_CIPHER
+            "key": "<%-EV_APP_ENCRYPTION_KEY%>" // EV_APP_ENCRYPTION_KEY $SECRET $DUPLICATE
+        },
+        "default": {
+            "cipher": "aes-256-ctr", // EV_ENCRYPTION_CIPHER
+            "key": "<%-EV_ENCRYPTION_KEY%>" // EV_ENCRYPTION_KEY $SECRET $DUPLICATE
+        },
+        "old": {
+            "key": "<%-EV_OLD_ENCRYPTION_KEY%>" // EV_OLD_ENCRYPTION_KEY $SECRET $DELETE
+        }
+    },
+    "mongoDB": {
+        "documentDB": {
+            "host": "growave.cluster-cfngpy0ddbxi.us-east-1.docdb.amazonaws.com", // EV_DOCDB_HOST
+            "port": "27017", // EV_DOCDB_PORT
+            "dbName": "prod_tracker", // EV_DOCDB_DB
+            "password": "<%-EV_DOCDB_PASSWORD%>", // EV_DOCDB_PASSWORD $SECRET
+            "username": "prodgw" // EV_DOCDB_USERNAME
+        },
+        "rewards": {
+            "host": "rewards-production.cluster-cfngpy0ddbxi.us-east-1.docdb.amazonaws.com",
+            "port": 27017,
+            "dbName": "rewards",
+            "password": "<%-EV_REWARDS_DOCDB_PASSWORD%>",
+            "username": "growave"
+        },
+        "cache": {
+            "host": "172.30.0.14", // EV_MONGO_CACHE_HOST
+            "port": 27017, // EV_MONGO_CACHE_PORT
+            "dbName": "prod_cache", // EV_MONGO_CACHE_DB
+            "collection": "sswcache" // EV_MONGO_CACHE_COLLECTION $DELETE
+        },
+        "instagram": {
+            "host": "172.30.0.14", // EV_MONGO_INSTAGRAM_HOST
+            "port": 27017, // EV_MONGO_INSTAGRAM_PORT
+            "dbName": "prod_instagram" // EV_MONGO_INSTAGRAM_DB
+        },
+        "tracker": {
+            "host": "172.30.0.31", // EV_MONGO_TRACKER_HOST
+            "port": 27017, // EV_MONGO_TRACKER_PORT
+            "dbName": "prod_tracker" // EV_MONGO_TRACKER_DB
+        }
+    },
+    "clickhouse": {
+        "connections": {
+            "base": {
+                "password": "", // $FILL
+                "username": "", // $FILL
+                "host": "", // $FILL
+                "port": "" // $FILL
+            }
+        }
+    },
+    "database": {
+        "charset": "utf8mb4", // EV_DATABASE_CHARSET
+        "driver": "pdo_mysql", // EV_DATABASE_DRIVER
+        "username": "gwprod", // EV_DATABASE_USER
+        "defaultDatabaseName": 105, // EV_DB_NUMBER
+        "password": "<%-EV_DATABASE_PASSWORD%>", // EV_DATABASE_PASSWORD $SECRET
+        "persistent": true, // EV_DATABASE_PERSISTENT $WHY
+        "cafilePath": "/mnt/www/growave_root/config/certs/rds-combined-ca-bundle.pem",
+        "connections": {
+            "global": {
+                "dbname": "shopify_rds", // EV_DATABASE_NAME_0
+                "proxy": "127.0.0.1", // EV_DATABASE_PROXY_0
+                "host": "growave-production-global.cfngpy0ddbxi.us-east-1.rds.amazonaws.com" // EV_DATABASE_REMOTE_HOST_0
+            },
+            "2": {
+                "dbname": "", // EV_DATABASE_NAME_1
+                "proxy": "", // EV_DATABASE_PROXY_1
+                "host": "" // EV_DATABASE_REMOTE_HOST_1
+            },
+            "3": {
+                "dbname": "", // EV_DATABASE_NAME_2
+                "proxy": "", // EV_DATABASE_PROXY_2
+                "host": "" // EV_DATABASE_REMOTE_HOST_2
+            },
+            "101": {
+                "dbname": "shopify_rds1", // EV_DATABASE_NAME_101
+                "proxy": "127.0.0.1", // EV_DATABASE_PROXY_1
+                "host": "growave-production-1.cfngpy0ddbxi.us-east-1.rds.amazonaws.com" // EV_DATABASE_REMOTE_HOST_1
+            },
+            "102": {
+                "dbname": "shopify_rds2", // EV_DATABASE_NAME_102
+                "proxy": "127.0.0.1", // EV_DATABASE_PROXY_2
+                "host": "growave-production-1.cfngpy0ddbxi.us-east-1.rds.amazonaws.com" // EV_DATABASE_REMOTE_HOST_2
+            },
+            "103": {
+                "dbname": "shopify_rds3", // EV_DATABASE_NAME_103
+                "proxy": "127.0.0.1", // EV_DATABASE_PROXY_3
+                "host": "growave-production-1.cfngpy0ddbxi.us-east-1.rds.amazonaws.com" // EV_DATABASE_REMOTE_HOST_3
+            },
+            "104": {
+                "dbname": "shopify_rds4", // EV_DATABASE_NAME_104
+                "proxy": "127.0.0.1", // EV_DATABASE_PROXY_4
+                "host": "growave-production-4.cfngpy0ddbxi.us-east-1.rds.amazonaws.com" // EV_DATABASE_REMOTE_HOST_4
+            },
+            "105": {
+                "dbname": "shopify_rds5", // EV_DATABASE_NAME_105
+                "proxy": "127.0.0.1", // EV_DATABASE_PROXY_5
+                "host": "growave-production-2.cfngpy0ddbxi.us-east-1.rds.amazonaws.com" // EV_DATABASE_REMOTE_HOST_5
+            },
+            "106": {
+                "dbname": "shopify_rds6", // EV_DATABASE_NAME_106
+                "proxy": "127.0.0.1", // EV_DATABASE_PROXY_6
+                "host": "growave-production-3.cfngpy0ddbxi.us-east-1.rds.amazonaws.com" // EV_DATABASE_REMOTE_HOST_6
+            }
+        }
+    },
+    "queues": {
+        "analyticsTracker": {
+            "name": "sswAnalyticTrackerSQSProd", // EV_ANALYTIC_TRACKER_SQS_QUEUE_NAME
+            "url": "https://sqs.us-east-1.amazonaws.com/108054159026/sswAnalyticTrackerSQSProd" // EV_ANALYTIC_TRACKER_SQS_QUEUE_URL
+        },
+        "emails": {
+            "name": "GwEmailProd" // EV_EMAIL_SQS_QUEUE_NAME
+        },
+        "updateBundleUrl": {
+            // $DELETE
+            "url": "https://sqs.us-east-1.amazonaws.com/108054159026/GwUpdateBundleUrlProduction"
+        }
+    },
+    "imgProxy": {
+        "baseURL": "https://imgs.growave.io", // EV_IMG_PROXY_BASE_URL
+        "key": "75a6e09f08e210a7de9817ce5690c1237191f5d63c107e924e8517118e58b84c", // EV_IMG_PROXY_KEY
+        "salt": "<%-EV_IMG_PROXY_SALT%>" // EV_IMG_PROXY_SALT $SECRET
+    },
+    "intercom": {
+        "growave": {
+            "appId2_2": "dG9rOjAzYzQwNzk4XzIyYzNfNGRiYl9iYzI5XzM3YTNjMzNhNzMxYToxOjA=", // EV_INTERCOM_GROWAVE_APP_ID_2_2
+            "appId": "dG9rOjUyZTNjYzYwXzQ4NWNfNDJlN184MDhjXzgyZWM5NjU2NTFmNDoxOjA=" // EV_INTERCOM_GROWAVE_APP_ID
+        },
+        "instagram": {
+            "appId2_2": "dG9rOjAzYzQwNzk4XzIyYzNfNGRiYl9iYzI5XzM3YTNjMzNhNzMxYToxOjA=", // EV_INTERCOM_INSTAGRAM_APP_ID_2_2
+            "appId": "dG9rOjkxNDM2MmMyX2U2YWRfNDZjZV84MjFjXzc5NWU0N2EzYjViMjoxOjA=" // EV_INTERCOM_INSTAGRAM_APP_ID
+        },
+        "secret2_2": "<%-EV_INTERCOM_SECRET_2_2%>", // EV_INTERCOM_SECRET_2_2 $SECRET
+        "secret": "<%-EV_INTERCOM_SECRET%>" // EV_INTERCOM_SECRET $SECRET
+    },
+    "mixpanel": {
+        "token": "<%-EV_MIXPANEL_PROJECT_TOKEN%>" // EV_MIXPANEL_PROJECT_TOKEN $SECRET
+    },
+    "postscript": {
+        "partnerKey": "sk_partner_613e84c9b3fa2271c97ab79054149098" // EV_POSTSCRIPT_PARTNER_KEY
+    },
+    "pushOwl": {
+        "partnerKey": "socialshopwave@PushOwl-DH897HG" // EV_PUSH_OWL_PARTNER_KEY
+    },
+    "proxySQL": {
+        "monitorDBPassword": "<%-EV_PROXY_SQL_MONITOR_DB_PASSWORD%>", // EV_PROXY_SQL_MONITOR_DB_PASSWORD $SECRET
+        "monitorDBUser": "proxysqlMonitor" // EV_PROXY_SQL_MONITOR_DB_USER
+    },
+    "recaptcha": {
+        "appId": "6Lf9mh4TAAAAAPWleiLIoVLKUDfSn7QBVJO1OstF", // EV_RECAPTCHA_APP_ID
+        "appSecret": "<%-EV_RECAPTCHA_APP_SECRET%>" // EV_RECAPTCHA_APP_SECRET $SECRET
+    },
+    "zendesk": {
+        "messagingSecretKey": "<%-EV_ZENDESK_MESSAGING_SECRET_KEY%>", // EV_ZENDESK_MESSAGING_SECRET_KEY
+        "messagingAppId": "app_62fcc90aafa8d800f3a3e488", // EV_ZENDESK_MESSAGING_APP_ID
+        "appToken": "<%-EV_ZENDESK_APP_TOKEN%>", // EV_ZENDESK_APP_TOKEN
+        "subdomain": "growave", // EV_ZENDESK_SUBDOMAIN
+        "username": "team@growave.io" // EV_ZENDESK_USER_NAME
+    },
+    "mailmodo": {
+        "token": "<%-EV_MAILMODO_TOKEN%>" // EV_MAILMODO_TOKEN
+    },
+    "usercom": {
+        "token": "<%-EV_USERCOM_TOKEN%>", // EV_MAILMODO_TOKEN
+        "appId": "<%-EV_USERCOM_APP_ID%>" // EV_MAILMODO_TOKEN
+    },
+    "customerIo": {
+        "token": "<%-EV_CUSTOMER_IO_TOKEN%>"// EV_CUSTOMER_IO_TOKEN
+    },
+    "userPilot": {
+        "token": "<%-EV_USER_PILOT_TOKEN%>"// EV_USER_PILOT_TOKEN
+    },
+    "redis": {
+        "metadataLifetime": 604800, // EV_REDIS_METADATA_LIFETIME
+        "port": 6379, // EV_REDIS_PORT
+        "persistent": false, // EV_REDIS_PERSISTENT
+        "queue": {
+            "host": "ssw-redis.fvufoi.ng.0001.use1.cache.amazonaws.com", // EV_REDIS_QUEUE_HOST
+            "index": "4", // EV_REDIS_QUEUE_INDEX
+            "port": 6379 // EV_REDIS_QUEUE_PORT
+        },
+        "session": {
+            "adminSavePath": "tcp://ssw-redis.fvufoi.ng.0001.use1.cache.amazonaws.com:6379?database=0", // EV_REDIS_SESSION_ADMIN_SAVE_PATH
+            "savePath": "tcp://ssw-redis.fvufoi.ng.0001.use1.cache.amazonaws.com:6379?database=1", // EV_REDIS_SESSION_SAVE_PATH
+            "statKey": "_PHCR" // EV_REDIS_STATS_KEY
+        },
+        "hosts": {
+            "1": "growave-cache3.fvufoi.ng.0001.use1.cache.amazonaws.com", // EV_REDIS_HOST
+            "2": "growave-cache4.fvufoi.ng.0001.use1.cache.amazonaws.com", // EV_REDIS_HOST_2
+            "3": "growave-cache6.fvufoi.ng.0001.use1.cache.amazonaws.com", // EV_REDIS_HOST_3
+            "4": "growave-cache2.fvufoi.ng.0001.use1.cache.amazonaws.com", // EV_REDIS_HOST_4
+            "5": "growave-cache1.fvufoi.ng.0001.use1.cache.amazonaws.com", // EV_REDIS_HOST_5
+            "6": "growave-cache5.fvufoi.ng.0001.use1.cache.amazonaws.com" // EV_REDIS_HOST_6
+        },
+        "indexes": {
+            "0": "0", // EV_REDIS_INDEX_0
+            "1": "0", // EV_REDIS_INDEX_1
+            "2": "0" // EV_REDIS_INDEX_2
+        },
+        "metadataIndexes": {
+            "0": "1", // EV_REDIS_METADATA_INDEX_0
+            "1": "1", // EV_REDIS_METADATA_INDEX_1
+            "2": "1" // EV_REDIS_METADATA_INDEX_2
+        },
+        "shopCacheConnections": [
+            {
+                "host": "growave-cache3.fvufoi.ng.0001.use1.cache.amazonaws.com",
+                "port": 6379,
+                "database": 0,
+                "shards": ["0","1"]
+            },
+            {
+                "host": "growave-cache4.fvufoi.ng.0001.use1.cache.amazonaws.com",
+                "port": 6379,
+                "database": 0,
+                "shards": ["2","3","4"]
+            },
+            {
+                "host": "growave-cache6.fvufoi.ng.0001.use1.cache.amazonaws.com",
+                "port": 6379,
+                "database": 0,
+                "shards": ["5","6"]
+            },
+            {
+                "host": "growave-cache2.fvufoi.ng.0001.use1.cache.amazonaws.com",
+                "port": 6379,
+                "database": 0,
+                "shards": ["7","8","9"]
+            },
+            {
+                "host": "growave-cache1.fvufoi.ng.0001.use1.cache.amazonaws.com",
+                "port": 6379,
+                "database": 0,
+                "shards": ["A","B","C"]
+            },
+            {
+                "host": "growave-cache5.fvufoi.ng.0001.use1.cache.amazonaws.com",
+                "port": 6379,
+                "database": 0,
+                "shards": ["D","E","F"]
+            }
+        ]
+    },
+    "discord": {
+        "deleteAppChannel": "https://discord.com/api/webhooks/1011871580973965362/K36R2f9BX6YJFl1Zjs38l4XytyMiZajnbxS_x_yNSD1I9XPxShDRn5uEIJgGQN7WGE6B" // EV_DISCORD_DELETED_APP_CHANNEL
+    },
+    "webflow": {
+        "hmacSecret": "<%-EV_WEBFLOW_HMAC_SECRET%>", // EV_WEBFLOW_HMAC_SECRET
+        "fingerpringJsApiKey": "yDQsMEwbcbGGYZXNlOzM", // FINGERPRINTJS_API_KEY
+        "userActionsCookieName": "webflow_user_actions"
+    },
+    "kafka": {
+        "brokers": [
+            "b-1.gweventsproduction.jkpe4v.c17.kafka.us-east-1.amazonaws.com:9092",
+            "b-2.gweventsproduction.jkpe4v.c17.kafka.us-east-1.amazonaws.com:9092",
+            "b-3.gweventsproduction.jkpe4v.c17.kafka.us-east-1.amazonaws.com:9092"
+        ],
+        "proxyUrl": "http://kafka-rest-proxy-production.gw-services:8888",
+        "topics": {
+            "notifications": {
+                "events": {
+                    "topic": "gw-notifications-events",
+                    "topicDLQ": "gw-notifications-events-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "producer": {
+                    "topic": "gw-notifications-producer",
+                    "topicDLQ": "gw-notifications-producer-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "adapter": {
+                    "topic": "gw-adapter-notifications",
+                    "topicDLQ": "gw-adapter-notifications-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "schedule": {
+                    "topic": "gw-notifications-schedule",
+                    "topicDLQ": "gw-notifications-schedule-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "group": {
+                    "topic": "gw-notifications-group",
+                    "topicDLQ": "gw-notifications-group-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "filter": {
+                    "topic": "gw-notifications-filter",
+                    "topicDLQ": "gw-notifications-filter-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "send": {
+                    "topic": "gw-notifications-send",
+                    "topicDLQ": "gw-notifications-send-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "sendEmail": {
+                    "topic": "gw-notifications-send-email",
+                    "topicDLQ": "gw-notifications-send-email-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                }
+            },
+            "rewards": {
+                "adapter": {
+                    "topic": "gw-rewards-events-adapter",
+                    "topicDLQ": "gw-rewards-events-adapter-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "events": {
+                    "topic": "gw-rewards-events",
+                    "topicDLQ": "gw-rewards-events-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "discounts": {
+                    "topic": "gw-rewards-discounts",
+                    "topicDLQ": "gw-rewards-discounts-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "giftCards": {
+                    "topic": "gw-rewards-gift-cards",
+                    "topicDLQ": "gw-rewards-gift-cards-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "points": {
+                    "topic": "gw-rewards-points",
+                    "topicDLQ": "gw-rewards-points-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                },
+                "scheduledEvents": {
+                    "topic": "gw-rewards-scheduled-events",
+                    "topicDLQ": "gw-rewards-scheduled-events-dlq",
+                    "compression": "none",
+                    "partitionsCount": 100
+                }
+            }
+        },
+        "analytics": {
+            "clickhouse": {
+                "host": "clickhouse.dev.growave.io",
+                "port": 8123,
+                "username": "<%-EV_CLICKHOUSE_USERNAME%>",
+                "password": "<%-EV_CLICKHOUSE_PASSWORD%>",
+                "database": "default"
+            }
+        }
+    },
+    "sharedFluentBit": {
+        "host": "shared-fluentbit-production.gw-services",
+        "port": 5170
+    },
+    "cloudinary": {
+        "secret": "<%-EV_CONNECTRICIANS_CLOUDINARY_SECRET%>" // EV_CONNECTRICIANS_CLOUDINARY_SECRET $SECRET
+    },
+    "affiliate": {
+        "jwt": {
+            "secret": "<%-EV_PARTNER_JWT_SECRET_KEY%>"
+        }
+    }
+}

@@ -1,0 +1,60 @@
+name: Worker - manual deploy
+run-name: Deploy "${{ inputs.worker }}" to ${{ inputs.environment }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      worker:
+        description: Worker
+        type: string[]
+        required: true
+        options:
+          - "analytics-events-to-clickhouse-worker"
+          - "integration-customer-sync-worker"
+          - "notification-events-to-clickhouse-worker"
+          - "notification-producer-worker"
+          - "notification-adapter-worker"
+          - "notification-schedule-group-worker"
+          - "notification-schedule-reminder-worker"
+          - "notification-move-group-worker"
+          - "notification-move-reminder-worker"
+          - "notification-filter-notifications-worker"
+          - "notification-email-separator-worker"
+          - "notification-send-by-firepush-worker"
+          - "notification-send-by-klaviyo-worker"
+          - "notification-send-by-omnisend-worker"
+          - "notification-send-by-postscript-worker"
+          - "notification-send-by-pushowl-worker"
+          - "notification-send-by-ses-worker"
+          - "notification-send-by-shopify-flow-worker"
+          - "rewards-actions-buy-x-to-get-y-worker"
+          - "rewards-actions-create-account-worker"
+          - "rewards-actions-custom-actions-worker"
+          - "rewards-actions-leave-review-worker"
+          - "rewards-actions-newsletter-subscribe-worker"
+          - "rewards-actions-place-order-worker"
+          - "rewards-actions-reward-delay-scheduler"
+          - "rewards-actions-reward-delay-worker"
+          - "rewards-actions-share-the-site-worker"
+          - "rewards-actions-share-to-facebook-worker"
+          - "rewards-actions-share-to-twitter-worker"
+          - "rewards-actions-visit-to-facebook-worker"
+          - "rewards-awards-discounts-worker"
+          - "rewards-awards-gift-cards-worker"
+          - "rewards-awards-points-worker"
+          - "rewards-events-adapter-worker"
+          - "rewards-points-expiration-scheduler"
+          - "rewards-points-expiration-worker"
+      environment:
+        description: Environment
+        type: environment
+        required: false
+        default: development
+
+jobs:
+  gw_deploy:
+    uses: ./.github/workflows/ci_cd_worker.yml
+    secrets: inherit
+    with:
+      worker: ${{ inputs.worker }}
+      environment: ${{ inputs.environment }}
