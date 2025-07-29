@@ -3,6 +3,8 @@ run-name: Manual deploy all notifications workers
 
 on:
   workflow_dispatch:
+    inputs:
+
 
 jobs:
   gw_deploy:
