@@ -3,11 +3,10 @@ run-name: Manual deploy all notifications workers
 
 on:
   workflow_dispatch:
-    inputs:
 
 jobs:
   gw_deploy:
-    uses: ./.github/workflows/ci_cd_worker.yml
+    uses: ./.github/workflows/sub/ci_cd_worker.yml
     secrets: inherit
     strategy:
       matrix:
