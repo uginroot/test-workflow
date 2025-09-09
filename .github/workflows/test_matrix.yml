@@ -16,7 +16,7 @@ jobs:
     steps:
         - name: Split input into array
           id: set-matrix
-          run: echo "workers=$(echo '${{ github.event.inputs.workers }}' | tr ',' '\n' | jq -R . | jq -s .)" >> $GITHUB_OUTPUT
+          run: echo "workers=$(echo '${{ github.event.inputs.workers }}' | tr ',' '\n' | jq -R . | jq -sc .)" >> $GITHUB_OUTPUT
   filter:
     runs-on: ubuntu-latest
     needs:
