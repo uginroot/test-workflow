@@ -1,4 +1,5 @@
-name: test_matrix.yml
+name: Test matrix filtering
+run-name: Test matrix filtering
 on:
   workflow_dispatch:
     inputs:
@@ -33,9 +34,9 @@ jobs:
             cluster: "fargate-only"
           - worker: "growave-webhooks-delay-worker"
             cluster: "fargate-only"
-    if: contains(needs.split.outputs.workers, matrix.value.worker)
     steps:
       - name: Print matrix
+        if: contains(needs.split.outputs.workers, matrix.value.worker)
         id: print
         run: | 
           echo "Worker: ${{ matrix.value.worker }}, Cluster: ${{ matrix.value.cluster }}"
