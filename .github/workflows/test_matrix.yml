@@ -44,8 +44,7 @@ jobs:
         env:
           SERVICES: ${{ github.event.inputs.services }}
         shell: python3 {0}
-  filter:
-    name: "${{ matrix.service }} in cluster ${{ matrix.cluster }}"
+  deploy:
     runs-on: ubuntu-latest
     needs:
       - prepare-matrix
