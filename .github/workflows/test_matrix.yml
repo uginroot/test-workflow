@@ -3,40 +3,52 @@ run-name: Test matrix filtering
 on:
   workflow_dispatch:
     inputs:
-      workers:
+      services:
         description: Service names (comma separated)
         type: string
         required: true
 
 jobs:
-  split:
+  prepare-matrix:
     runs-on: ubuntu-latest
     outputs:
-      workers: ${{ steps.set-matrix.outputs.workers }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-        - name: Split input into array
-          id: set-matrix
-          run: echo "workers=$(echo '${{ github.event.inputs.workers }}' | tr ',' '\n' | jq -R . | jq -sc .)" >> $GITHUB_OUTPUT
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Read config and build matrix
+        id: set-matrix
+        run: |
+          import yaml, json, os
+          
+          requested_services = [s.strip() for s in os.environ["SERVICES"].split(",")]
+
+          with open(".github/config_variables/aws_ecs_clusters.yml") as f:
+              config = yaml.safe_load(f)
+
+          matrix = []
+          for cluster, services in config.items():
+              for service in services:
+                  if service in requested_services:
+                      matrix.append({"cluster": cluster, "service": service})
+          
+          for service in requested_services:
+              if not any(entry["service"] == service for entry in matrix):
+                  raise ValueError(f"Service '{service}' not found in any cluster")
+
+          print("::set-output name=matrix::" + json.dumps({"services": matrix}))
+        env:
+          SERVICES: ${{ github.event.inputs.services }}
+        shell: python3 {0}
   filter:
     runs-on: ubuntu-latest
     needs:
-      - split
+      - prepare-matrix
     strategy:
-      matrix:
-        value:
-          - worker: "background-cron-worker"
-            cluster: "general-workers"
-          - worker: "background-task-dispatcher-worker"
-            cluster: "fargate-only"
-          - worker: "general-background-worker"
-            cluster: "fargate-only"
-          - worker: "gift-registries-background-worker"
-            cluster: "fargate-only"
-          - worker: "growave-webhooks-delay-worker"
-            cluster: "fargate-only"
+      matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
     steps:
-      - name: Print matrix
-        if: contains(needs.split.outputs.workers, matrix.value.worker)
+      - name: Deploy ${{ matrix.service }} to ECS cluster ${{ matrix.cluster }}
         id: print
         run: | 
           echo "Worker: ${{ matrix.value.worker }}, Cluster: ${{ matrix.value.cluster }}"
