@@ -32,7 +32,7 @@ jobs:
               for service in services:
                   if service in requested_services:
                       matrix.append({"cluster": cluster, "service": service})
-          
+          print("Built matrix:", matrix)
           for service in requested_services:
               if not any(entry["service"] == service for entry in matrix):
                   raise ValueError(f"Service '{service}' not found in any cluster")
