@@ -39,18 +39,19 @@ jobs:
               if not any(entry["service"] == service for entry in matrix):
                   raise ValueError(f"Service '{service}' not found in any cluster")
 
-          print("::set-output name=matrix::" + json.dumps({"services": matrix}))
+          print("::set-output name=matrix::" + json.dumps({"value": matrix}))
         env:
           SERVICES: ${{ github.event.inputs.services }}
         shell: python3 {0}
   filter:
+    name: "${{ matrix.service }} in cluster ${{ matrix.cluster }}"
     runs-on: ubuntu-latest
     needs:
       - prepare-matrix
     strategy:
       matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
     steps:
-      - name: Deploy ${{ matrix.service }} to ECS cluster ${{ matrix.cluster }}
+      - name: Deploy ${{ matrix.value.service }} to ECS cluster ${{ matrix.value.cluster }}
         id: print
         run: | 
           echo "Worker: ${{ matrix.value.worker }}, Cluster: ${{ matrix.value.cluster }}"
