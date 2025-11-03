@@ -28,7 +28,7 @@ jobs:
               config = yaml.safe_load(f)
 
           matrix = []
-          for cluster, services in config.clusters.items():
+          for cluster, services in config.items():
               for service in services:
                   if service in requested_services:
                       matrix.append({"cluster": cluster, "service": service})
