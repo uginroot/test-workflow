@@ -31,7 +31,7 @@ jobs:
           for cluster, services in config.items():
               for service in services:
                   if service in requested_services:
-                      matrix.append({"cluster": cluster, "service": service})
+                      matrix.append({"service": service, "cluster": cluster})
           
           for service in requested_services:
               if not any(entry["service"] == service for entry in matrix):
