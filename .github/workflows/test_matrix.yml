@@ -29,7 +29,7 @@ jobs:
 
           matrix = []
           for cluster, folders in config.items():
-            for folder, services in folders:
+            for folder, services in folders.items():
                 for service in services:
                     if service in requested_services:
                         matrix.append({"service": service, "folder": folder, "cluster": cluster})
