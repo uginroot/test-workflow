@@ -1,158 +1,181 @@
 common-fargate:
-  - admin-events-to-clickhouse-worker
-  - analytics-events-to-clickhouse-worker
-  - background-cron-worker
-  - background-operations-grpc-server
-  - background-task-dispatcher-worker
-  - background-tasks-grpc-server
-  - business-analytic-worker
-  - common-service
-  - export-csv-worker
-  - general-background-worker
-  - growave-webhooks-delay-worker
-  - growave-webhooks-worker
-  - import-admin-service
-  - import-background-worker
-  - import-csv-worker
-  - kafka-analytics-events-to-mixpanel-worker
-  - settings-manager-service
-  - shopify-webhook-worker
+  services:
+    - auth-admin-service
+    - auth-storefront-service
+    - billing-service
+    - common-admin
+    - common-storefront-service
+    - file-uploader-admin
+    - common-service
+    - settings-manager-service
+  workers:
+    - admin-events-to-clickhouse-worker
+    - analytics-events-to-clickhouse-worker
+    - background-cron-worker
+    - background-operations-grpc-server
+    - background-task-dispatcher-worker
+    - background-tasks-grpc-server
+    - business-analytic-worker
+    - export-csv-worker
+    - general-background-worker
+    - growave-webhooks-delay-worker
+    - growave-webhooks-worker
+    - import-admin-service
+    - import-background-worker
+    - import-csv-worker
+    - kafka-analytics-events-to-mixpanel-worker
+    - shopify-webhook-worker
 
 fargate-only:
-  - auth-service
-  - branding-service
-  - common-storefront
-  - content-translation-service
-  - file-uploader-storefront
-  - growave-api
-  - media-feed-admin
-  - media-feed-storefront
-  - nudges-background-worker
-  - nudges-service
-  - shopify-api-gateway-service
-  - shopify-extensions-api
-  - storefront-authentication-service
-  - translations-background-worker
-  - translations-service
+  services:
+    - auth-service
+    - branding-service
+    - common-storefront
+    - content-translation-service
+    - file-uploader-storefront
+    - growave-api
+    - media-feed-admin
+    - media-feed-storefront
+    - nudges-service
+    - shopify-api-gateway-service
+    - storefront-authentication-service
+    - translations-service
+    - shopify-extensions-api
+  workers:
+    - nudges-background-worker
+    - translations-background-worker
 
 instagram-fargate:
-  - instagram-cache-invalidate-legacy-worker
+  workers:
+    - instagram-cache-invalidate-legacy-worker
 
 install-fargate:
-  - installation-worker
-  - mcp-admin
-  - migration-worker
-  - onboarding-index-service
-  - onboarding-service
-  - shopify-data-sync-worker
+  services:
+    - onboarding-index-service
+    - onboarding-service
+  workers:
+    - installation-worker
+    - mcp-admin
+    - migration-worker
+    - shopify-data-sync-worker
 
 integrations-fargate:
-  - attentive-service
-  - google-shopping-worker
-  - integration-customer-sync-scheduler-worker
-  - integration-customer-sync-worker
-  - integration-events-to-gorgias-queue-worker
-  - integration-events-to-gorgias-worker
-  - integration-events-to-zendesk-worker
-  - integrations-admin-service
-  - integrations-emarsys-service
-  - integrations-tiktok-service
-  - klaviyo-worker
-  - shopify-flow-service
+  services:
+    - attentive-service
+    - integrations-admin-service
+    - integrations-emarsys-service
+    - integrations-tiktok-service
+    - shopify-flow-service
+  workers:
+    - google-shopping-worker
+    - integration-customer-sync-scheduler-worker
+    - integration-customer-sync-worker
+    - integration-events-to-gorgias-queue-worker
+    - integration-events-to-gorgias-worker
+    - integration-events-to-zendesk-worker
+    - klaviyo-worker
 
 notifications-fargate:
-  - notification-events-to-clickhouse-worker
-  - notification-filter-notifications-worker
-  - notification-move-group-worker
-  - notification-move-reminder-worker
-  - notification-producer-worker
-  - notification-schedule-group-worker
-  - notification-schedule-reminder-worker
-  - notification-send-by-firepush-worker
-  - notification-send-by-grpc-integrations-worker
-  - notification-send-by-klaviyo-worker
-  - notification-send-by-legacy-worker
-  - notification-send-by-omnisend-worker
-  - notification-send-by-postscript-worker
-  - notification-send-by-pushowl-worker
-  - notification-send-by-ses-worker
-  - notification-send-by-shopify-flow-worker
-  - notification-separator-worker
-  - notifications-app
+  services:
+    - notifications-app
+  workers:
+    - notification-events-to-clickhouse-worker
+    - notification-filter-notifications-worker
+    - notification-move-group-worker
+    - notification-move-reminder-worker
+    - notification-producer-worker
+    - notification-schedule-group-worker
+    - notification-schedule-reminder-worker
+    - notification-send-by-firepush-worker
+    - notification-send-by-grpc-integrations-worker
+    - notification-send-by-klaviyo-worker
+    - notification-send-by-legacy-worker
+    - notification-send-by-omnisend-worker
+    - notification-send-by-postscript-worker
+    - notification-send-by-pushowl-worker
+    - notification-send-by-ses-worker
+    - notification-send-by-shopify-flow-worker
+    - notification-separator-worker
 
 reviews-fargate:
-  - reviews-admin-service
-  - reviews-background-worker
-  - reviews-cache-invalidate-legacy-worker
-  - reviews-cache-invalidate-worker
-  - reviews-cron-time-listener-worker
-  - reviews-likes-sync-worker
-  - reviews-migration-worker
-  - reviews-storefront
-  - reviews-sync-queue-worker
-  - reviews-upsert-sync-worker
+  services:
+    - reviews-admin-service
+    - reviews-storefront
+  workers:
+    - reviews-background-worker
+    - reviews-cache-invalidate-legacy-worker
+    - reviews-cache-invalidate-worker
+    - reviews-cron-time-listener-worker
+    - reviews-likes-sync-worker
+    - reviews-migration-worker
+    - reviews-sync-queue-worker
+    - reviews-upsert-sync-worker
 
 rewards-fargate:
-  - rewards-admin
-  - rewards-admin-service
-  - rewards-analytics
-  - rewards-analytics-events-to-clickhouse-worker
-  - rewards-awards-discounts-worker
-  - rewards-awards-gift-cards-worker
-  - rewards-awards-points-worker
-  - rewards-b2b-company-rewards-worker
-  - rewards-b2b-earning-order-rules-worker
-  - rewards-background-external-worker
-  - rewards-background-internal-worker
-  - rewards-background-mongo-worker
-  - rewards-background-mysql-worker
-  - rewards-background-worker
-  - rewards-cache-invalidate-legacy-worker
-  - rewards-cache-invalidate-worker
-  - rewards-customer-rewards-worker
-  - rewards-earns-birthday-find-worker
-  - rewards-earns-birthday-gift-worker
-  - rewards-earns-birthday-scheduler
-  - rewards-earns-buy-x-to-get-y-worker
-  - rewards-earns-create-account-worker
-  - rewards-earns-custom-actions-worker
-  - rewards-earns-facebook-page-visit-worker
-  - rewards-earns-follow-on-instagram-worker
-  - rewards-earns-follow-on-tiktok-worker
-  - rewards-earns-follow-on-twitter-worker
-  - rewards-earns-follow-on-youtube-worker
-  - rewards-earns-leave-review-worker
-  - rewards-earns-newsletter-subscribe-worker
-  - rewards-earns-place-order-worker
-  - rewards-earns-punch-card-worker
-  - rewards-earns-reward-delay-scheduler
-  - rewards-earns-reward-delay-worker
-  - rewards-earns-share-the-shop-worker
-  - rewards-earns-share-to-facebook-worker
-  - rewards-earns-share-to-twitter-worker
-  - rewards-earns-social-rules-worker
-  - rewards-earns-spend-x-to-get-y-worker
-  - rewards-notifications-worker
-  - rewards-orders-calculating-worker
-  - rewards-past-actions-worker
-  - rewards-points-expiration-scheduler
-  - rewards-points-expiration-worker
-  - rewards-referrals-receiver-order-check-worker
-  - rewards-referrals-worker
-  - rewards-storefront
-  - rewards-storefront-service
-  - rewards-tiers-adjustments-worker
-  - rewards-tiers-worker
-  - rewards-utils-cron-worker
-  - rewards-webhooks-queue-worker
+  services:
+    - rewards-admin
+    - rewards-admin-service
+    - rewards-analytics
+    - rewards-storefront
+    - rewards-storefront-service
+  workers:
+    - rewards-analytics-events-to-clickhouse-worker
+    - rewards-awards-discounts-worker
+    - rewards-awards-gift-cards-worker
+    - rewards-awards-points-worker
+    - rewards-b2b-company-rewards-worker
+    - rewards-b2b-earning-order-rules-worker
+    - rewards-background-external-worker
+    - rewards-background-internal-worker
+    - rewards-background-mongo-worker
+    - rewards-background-mysql-worker
+    - rewards-background-worker
+    - rewards-cache-invalidate-legacy-worker
+    - rewards-cache-invalidate-worker
+    - rewards-customer-rewards-worker
+    - rewards-earns-birthday-find-worker
+    - rewards-earns-birthday-gift-worker
+    - rewards-earns-birthday-scheduler
+    - rewards-earns-buy-x-to-get-y-worker
+    - rewards-earns-create-account-worker
+    - rewards-earns-custom-actions-worker
+    - rewards-earns-facebook-page-visit-worker
+    - rewards-earns-follow-on-instagram-worker
+    - rewards-earns-follow-on-tiktok-worker
+    - rewards-earns-follow-on-twitter-worker
+    - rewards-earns-follow-on-youtube-worker
+    - rewards-earns-leave-review-worker
+    - rewards-earns-newsletter-subscribe-worker
+    - rewards-earns-place-order-worker
+    - rewards-earns-punch-card-worker
+    - rewards-earns-reward-delay-scheduler
+    - rewards-earns-reward-delay-worker
+    - rewards-earns-share-the-shop-worker
+    - rewards-earns-share-to-facebook-worker
+    - rewards-earns-share-to-twitter-worker
+    - rewards-earns-social-rules-worker
+    - rewards-earns-spend-x-to-get-y-worker
+    - rewards-notifications-worker
+    - rewards-orders-calculating-worker
+    - rewards-past-actions-worker
+    - rewards-points-expiration-scheduler
+    - rewards-points-expiration-worker
+    - rewards-referrals-receiver-order-check-worker
+    - rewards-referrals-worker
+    - rewards-tiers-adjustments-worker
+    - rewards-tiers-worker
+    - rewards-utils-cron-worker
+    - rewards-webhooks-queue-worker
 
 wishlists-fargate:
-  - gift-registries-background-worker
-  - gift-registries-service
-  - wishlist-background-worker
-  - wishlist-storefront
-  - wishlist-upsert-sync-worker
-  - wishlists-admin-service
-  - wishlists-cache-invalidate-legacy-worker
-  - wishlists-cache-invalidate-worker
-  - wishlists-cache-invalidate-worker
+  services:
+    - gift-registries-service
+    - wishlist-storefront
+    - wishlists-admin-service
+  workers:
+    - gift-registries-background-worker
+    - wishlist-background-worker
+    - wishlist-upsert-sync-worker
+    - wishlists-cache-invalidate-legacy-worker
+    - wishlists-cache-invalidate-worker
+    - wishlists-cache-invalidate-worker

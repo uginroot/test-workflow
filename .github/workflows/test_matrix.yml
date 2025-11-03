@@ -1,5 +1,5 @@
-name: Test matrix filtering
-run-name: Test matrix filtering
+name: Deploy services to ECS clusters
+run-name: Deploy ${{inputs.services}}
 on:
   workflow_dispatch:
     inputs:
@@ -28,17 +28,18 @@ jobs:
               config = yaml.safe_load(f)
 
           matrix = []
-          for cluster, services in config.items():
-              for service in services:
-                  if service in requested_services:
-                      matrix.append({"service": service, "cluster": cluster})
+          for cluster, folders in config.items():
+            for folder, services in folders:
+                for service in services:
+                    if service in requested_services:
+                        matrix.append({"service": service, "folder": folder, "cluster": cluster})
           
           for service in requested_services:
               if not any(entry["service"] == service for entry in matrix):
                   raise ValueError(f"Service '{service}' not found in any cluster")
           
           for entry in matrix:
-              print(f"Deploying service '{entry['service']}' to cluster '{entry['cluster']}'")
+              print(f"Deploy '{entry['service']}' to '{entry['cluster']}' in folder '{entry['folder']}'")
 
           print("::set-output name=matrix::" + json.dumps({"value": matrix}))
         env:
@@ -51,7 +52,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
     steps:
-      - name: Deploy ${{ matrix.value.service }} to ECS cluster ${{ matrix.value.cluster }}
+      - name: Deploy ${{ matrix.value.service }} to ${{ matrix.value.cluster }} in folder ${{ matrix.value.folder }}
         id: print
         run: | 
-          echo "Worker: ${{ matrix.value.worker }}, Cluster: ${{ matrix.value.cluster }}"
+          echo "Deploy ${{ matrix.value.service }} to ${{ matrix.value.cluster }} in folder ${{ matrix.value.folder }}"
