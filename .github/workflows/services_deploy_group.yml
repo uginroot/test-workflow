@@ -154,7 +154,7 @@ jobs:
                     git sparse-checkout init --cone
                     git sparse-checkout add .github/config_variables/aws_ecs_clusters.yml
                     git sparse-checkout add .github/actions/nodejs_services_prepare_matrix/action.yaml
-                    git sparse-checkout add .github/workflow/services_deploy.yml
+                    git sparse-checkout add .github/workflows/services_deploy.yml
                     git checkout FETCH_HEAD
             - name: Trigger services deploy
               if: ${{ needs.collect-services.outputs.services != '' }}
