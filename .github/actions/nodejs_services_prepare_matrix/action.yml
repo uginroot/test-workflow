@@ -58,4 +58,4 @@ runs:
                 console.log(`::set-output name=matrix::${output}`);
                 EOF
             env:
-                SERVICES: ${{ github.event.inputs.services }}
+                SERVICES: ${{ inputs.services }}
