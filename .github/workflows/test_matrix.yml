@@ -15,7 +15,7 @@ jobs:
         steps:
             -   name: Prepare matrix
                 id: set-matrix
-                uses: ".github/actions/nodejs_services_prepare_matrix"
+                uses: ./.github/actions/nodejs_services_prepare_matrix
                 with:
                     services: ${{ inputs.services }}
         outputs:
