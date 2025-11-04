@@ -1,0 +1,71 @@
+name: nodejs_services_prepare_matrix
+description: prepare matrix for nodejs services deployment
+author: anton
+inputs:
+    services:
+        description: Service name (comma separated)
+        required: true
+outputs:
+    result:
+        description: Matrix result
+        value: ${{ steps.set-matrix.outputs.matrix }}
+runs:
+    using: composite
+    steps:
+        -   name: Sparse checkout only config file
+            shell: bash
+            run: |
+                git init
+                git remote add origin https://github.com/${{ github.repository }}.git
+                git fetch --depth=1 origin ${{ github.ref }}
+                git sparse-checkout init --cone
+                git sparse-checkout set .github/config_variables/aws_ecs_clusters.yml
+                git checkout FETCH_HEAD
+
+        -   name: Setup js-yaml
+            shell: bash
+            run: npm install js-yaml
+
+        -   name: Read config and build matrix
+            shell: bash
+            id: set-matrix
+            run: |
+                node <<'EOF'
+                import fs from 'fs';
+                import yaml from 'js-yaml';
+                
+                const requestedServices = process.env.SERVICES.split(",").map(s => s.trim());
+                const configPath = '.github/config_variables/aws_ecs_clusters.yml';
+                
+                const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
+                const matrix = [];
+                
+                // Перебор: cluster → folder → services
+                for (const [cluster, folders] of Object.entries(config)) {
+                  for (const [folder, services] of Object.entries(folders)) {
+                    for (const service of services) {
+                      if (requestedServices.includes(service)) {
+                        matrix.push({ service, folder, cluster });
+                      }
+                    }
+                  }
+                }
+                
+                // Проверяем, что все сервисы найдены
+                for (const service of requestedServices) {
+                  if (!matrix.some(entry => entry.service === service)) {
+                    throw new Error(`Service '${service}' not found in any cluster`);
+                  }
+                }
+                
+                // Логируем найденные сервисы
+                for (const entry of matrix) {
+                  console.log(`Deploy '${entry.service}' to '${entry.cluster}' in folder '${entry.folder}'`);
+                }
+                
+                // Отдаём результат в GitHub Actions
+                const output = JSON.stringify({ value: matrix });
+                console.log(`::set-output name=matrix::${output}`);
+                EOF
+            env:
+                SERVICES: ${{ github.event.inputs.services }}
