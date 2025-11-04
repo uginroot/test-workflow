@@ -33,6 +33,8 @@ jobs:
     collect-services:
         name: Build services string for group ${{ inputs.group }}
         runs-on: ubuntu-latest
+        outputs:
+            services: ${{ steps.collect.outputs.services }}
         steps:
             -   name: Setup js-yaml
                 shell: bash
@@ -130,7 +132,7 @@ jobs:
                             }
                             break;
                     }
-
+                    
                     
                     const result = services.join(',');
                     console.log('Services:', result);
@@ -138,26 +140,9 @@ jobs:
                     EOF
                 env:
                     GROUP: ${{ github.event.inputs.group }}
-        outputs:
-            services: ${{ steps.collect.outputs.services }}
     trigger-deploy:
-        runs-on: ubuntu-latest
-        needs:
-            - collect-services
-        steps:
-            -   name: Sparse checkout only config file
-                shell: bash
-                run: |
-                    git init
-                    git remote add origin https://github.com/${{ github.repository }}.git
-                    git fetch --depth=1 origin ${{ github.ref }}
-                    git sparse-checkout init --cone
-                    git sparse-checkout add .github/config_variables/aws_ecs_clusters.yml
-                    git sparse-checkout add .github/actions/nodejs_services_prepare_matrix/action.yaml
-                    git sparse-checkout add .github/workflows/services_deploy.yml
-                    git checkout FETCH_HEAD
-            - name: Trigger services deploy
-              if: ${{ needs.collect-services.outputs.services != '' }}
-              uses: ./.github/workflows/services_deploy.yml
-              with:
-                  services: ${{ needs.collect-services.outputs.services }}
+        needs: collect-services
+        uses: ./.github/workflows/services_deploy.yml
+        secrets: inherit
+        with:
+            services: ${{ needs.collect-services.outputs.services }}
