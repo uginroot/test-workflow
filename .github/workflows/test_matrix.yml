@@ -23,6 +23,9 @@ jobs:
             git sparse-checkout set .github/config_variables/aws_ecs_clusters.yml
             git checkout FETCH_HEAD
 
+      - name: Setup js-yaml
+        run: npm install js-yaml
+
       - name: Read config and build matrix
         id: set-matrix
         run: |
