@@ -36,14 +36,14 @@ jobs:
         outputs:
             services: ${{ steps.collect.outputs.services }}
         steps:
-            -   name: Setup js-yaml
-                shell: bash
-                run: npm install js-yaml @actions/core
-
             -   name: Checkout on branch
                 uses: actions/checkout@v4
                 with:
                     sparse-checkout: .github
+
+            -   name: Setup js-yaml
+                shell: bash
+                run: npm install js-yaml @actions/core
 
             -   name: Collect service list (Node.js)
                 id: collect
