@@ -43,7 +43,7 @@ jobs:
             -   name: Checkout on branch
                 uses: actions/checkout@v4
                 with:
-                    sparse-checkout: .github/*
+                    sparse-checkout: .github
 
             -   name: Collect service list (Node.js)
                 id: collect
