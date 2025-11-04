@@ -1,0 +1,149 @@
+name: Manual deploy group ecs services
+run-name: Manual deploy group ecs services ${{ inputs.group }}
+
+on:
+    workflow_dispatch:
+        inputs:
+            group:
+                description: Worker group
+                type: choice
+                required: true
+                options:
+                    - Nothing
+                    - integrations-fargate
+                    - integrations-fargate workers
+                    - integrations-fargate services
+                    - notifications-fargate
+                    - notifications-fargate workers
+                    - notifications-fargate services
+                    - reviews-fargate
+                    - reviews-fargate workers
+                    - reviews-fargate services
+                    - rewards-fargate
+                    - rewards-fargate workers
+                    - rewards-fargate services
+                    - wishlists-fargate
+                    - wishlists-fargate workers
+                    - wishlists-fargate services
+                    - All services
+                    - All workers
+                    - All
+
+jobs:
+    collect-services:
+        name: Build services string for group ${{ inputs.group }}
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Setup js-yaml
+                shell: bash
+                run: npm install js-yaml
+
+            -   name: Sparse checkout only config file
+                shell: bash
+                run: |
+                    git init
+                    git remote add origin https://github.com/${{ github.repository }}.git
+                    git fetch --depth=1 origin ${{ github.ref }}
+                    git sparse-checkout init --cone
+                    git sparse-checkout add .github/config_variables/aws_ecs_clusters.yml
+                    git sparse-checkout add .github/actions/nodejs_services_prepare_matrix/action.yaml
+                    git sparse-checkout add .github/workflow/services_deploy.yml
+                    git checkout FETCH_HEAD
+
+            -   name: Collect service list (Node.js)
+                id: collect
+                run: |
+                    node <<'EOF'
+                    import fs from 'fs';
+                    import yaml from 'js-yaml';
+                    
+                    const group = process.env.GROUP;
+                    const config = yaml.load(fs.readFileSync('.github/config_variables/aws_ecs_clusters.yml', 'utf8'));
+                    
+                    let services = [];
+                    
+                    switch (group) {
+                        case 'integrations-fargate':
+                            services.push(...config["integrations-fargate"].services);
+                            services.push(...config["integrations-fargate"].workers);
+                            break;
+                        case 'integrations-fargate workers':
+                            services.push(...config["integrations-fargate"].workers);
+                            break;
+                        case 'integrations-fargate services':
+                            services.push(...config["integrations-fargate"].services);
+                            break;
+                        case 'notifications-fargate':
+                            services.push(...config["notifications-fargate"].services);
+                            services.push(...config["notifications-fargate"].workers);
+                            break;
+                        case 'notifications-fargate workers':
+                            services.push(...config["notifications-fargate"].workers);
+                            break;
+                        case 'notifications-fargate services':
+                            services.push(...config["notifications-fargate"].services);
+                            break;
+                        case 'reviews-fargate':
+                            services.push(...config["reviews-fargate"].services);
+                            services.push(...config["reviews-fargate"].workers);
+                            break;
+                        case 'reviews-fargate workers':
+                            services.push(...config["reviews-fargate"].workers);
+                            break;
+                        case 'reviews-fargate services':
+                            services.push(...config["reviews-fargate"].services);
+                            break;
+                        case 'rewards-fargate':
+                            services.push(...config["rewards-fargate"].services);
+                            services.push(...config["rewards-fargate"].workers);
+                            break;
+                        case 'rewards-fargate workers':
+                            services.push(...config["rewards-fargate"].workers);
+                            break;
+                        case 'rewards-fargate services':
+                            services.push(...config["rewards-fargate"].services);
+                            break;
+                        case 'wishlists-fargate':
+                            services.push(...config["wishlists-fargate"].services);
+                            services.push(...config["wishlists-fargate"].workers);
+                            break;
+                        case 'wishlists-fargate workers':
+                            services.push(...config["wishlists-fargate"].workers);
+                            break;
+                        case 'wishlists-fargate services':
+                            services.push(...config["wishlists-fargate"].services);
+                            break;
+                        case 'All services':
+                            for (const cluster of Object.values(config)) {
+                            services.push(...cluster.services);
+                            }
+                            break;
+                        case 'All workers':
+                            for (const cluster of Object.values(config)) {
+                            services.push(...cluster.workers);
+                            }
+                            break;
+                        case 'All':
+                            for (const cluster of Object.values(config)) {
+                            services.push(...cluster.services);
+                            services.push(...cluster.workers);
+                            }
+                            break;
+                    }
+
+                    
+                    const result = services.join(',');
+                    console.log('Services:', result);
+                    fs.appendFileSync(process.env.GITHUB_OUTPUT, `services=${result}\n`);
+                    EOF
+                env:
+                    GROUP: ${{ github.event.inputs.group }}
+        outputs:
+            services: ${{ steps.collect.outputs.services }}
+    trigger-deploy:
+        if: ${{ needs.collect-services.outputs.services != '' }}
+        needs:
+            - collect-services
+        uses: ./.github/workflows/services_deploy.yml
+        with:
+            services: ${{ needs.collect-services.outputs.services }}
