@@ -40,17 +40,10 @@ jobs:
                 shell: bash
                 run: npm install js-yaml @actions/core
 
-            -   name: Sparse checkout only config file
-                shell: bash
-                run: |
-                    git init
-                    git remote add origin https://github.com/${{ github.repository }}.git
-                    git fetch --depth=1 origin ${{ github.ref }}
-                    git sparse-checkout init --cone
-                    git sparse-checkout add .github/config_variables/aws_ecs_clusters.yml
-                    git sparse-checkout add .github/actions/nodejs_services_prepare_matrix/action.yaml
-                    git sparse-checkout add .github/workflow/services_deploy.yml
-                    git checkout FETCH_HEAD
+            -   name: Checkout on branch
+                uses: actions/checkout@v4
+                with:
+                    sparse-checkout: .github/*
 
             -   name: Collect service list (Node.js)
                 id: collect
