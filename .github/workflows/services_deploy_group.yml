@@ -38,7 +38,7 @@ jobs:
         steps:
             -   name: Setup js-yaml
                 shell: bash
-                run: npm install js-yaml
+                run: npm install js-yaml @actions/core
 
             -   name: Sparse checkout only config file
                 shell: bash
@@ -58,6 +58,7 @@ jobs:
                     node <<'EOF'
                     import fs from 'fs';
                     import yaml from 'js-yaml';
+                    import core from '@actions/core';
                     
                     const group = process.env.GROUP;
                     const config = yaml.load(fs.readFileSync('.github/config_variables/aws_ecs_clusters.yml', 'utf8'));
@@ -136,7 +137,7 @@ jobs:
                     
                     const result = services.join(',');
                     console.log('Services:', result);
-                    fs.appendFileSync(process.env.GITHUB_OUTPUT, `services=${result}\n`);
+                    core.setOutput('services', result);
                     EOF
                 env:
                     GROUP: ${{ github.event.inputs.group }}
