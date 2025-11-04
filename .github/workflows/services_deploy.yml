@@ -24,6 +24,7 @@ jobs:
                 uses: actions/checkout@v4
                 with:
                     sparse-checkout: .github
+                    fetch-depth: 0
 
             -   name: Prepare matrix
                 id: set-matrix
