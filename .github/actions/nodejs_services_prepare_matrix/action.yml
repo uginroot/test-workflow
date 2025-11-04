@@ -23,6 +23,7 @@ runs:
                 node <<'EOF'
                 import fs from 'fs';
                 import yaml from 'js-yaml';
+                import core from '@actions/core';
                 
                 const requestedServices = process.env.SERVICES.split(",").map(s => s.trim());
                 const configPath = '.github/config_variables/aws_ecs_clusters.yml';
@@ -55,7 +56,7 @@ runs:
                 
                 // Отдаём результат в GitHub Actions
                 const output = JSON.stringify({ value: matrix });
-                console.log(`::set-output name=matrix::${output}`);
+                core.setOutput('matrix', output);
                 EOF
             env:
                 SERVICES: ${{ inputs.services }}
