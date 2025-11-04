@@ -14,7 +14,7 @@ runs:
     steps:
         -   name: Setup js-yaml
             shell: bash
-            run: npm install js-yaml
+            run: npm install js-yaml @actions/core
 
         -   name: Read config and build matrix
             shell: bash
