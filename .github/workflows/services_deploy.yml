@@ -23,7 +23,7 @@ jobs:
             -   name: Checkout on branch
                 uses: actions/checkout@v4
                 with:
-                    sparse-checkout: .github
+                    filter: .github
                     fetch-depth: 0
 
             -   name: Prepare matrix
