@@ -7,6 +7,12 @@ on:
                 description: Service names (comma separated)
                 type: string
                 required: true
+    workflow_call:
+        inputs:
+            services:
+                description: Service name (comma separated)
+                type: string
+                required: true
 
 jobs:
     prepare-matrix:
