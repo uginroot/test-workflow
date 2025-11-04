@@ -6,7 +6,7 @@ inputs:
         description: Service name (comma separated)
         required: true
 outputs:
-    result:
+    matrix:
         description: Matrix result
         value: ${{ steps.set-matrix.outputs.matrix }}
 runs:
